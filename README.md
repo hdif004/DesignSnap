@@ -67,41 +67,7 @@ git clone https://github.com/your-username/design-snap.git
 cd design-snap
 ```
 
-### 2. Generate icons (first time only)
-
-Run this in PowerShell from the project root:
-
-```powershell
-Add-Type -AssemblyName System.Drawing
-
-function New-DesignSnapIcon($size, $path) {
-    $bmp = New-Object System.Drawing.Bitmap($size, $size)
-    $g   = [System.Drawing.Graphics]::FromImage($bmp)
-    $g.SmoothingMode     = [System.Drawing.Drawing2D.SmoothingMode]::AntiAlias
-    $g.TextRenderingHint = [System.Drawing.Text.TextRenderingHint]::AntiAliasGridFit
-    $bg     = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::White)
-    $accent = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::FromArgb(22, 163, 74))
-    $white  = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::White)
-    $g.FillRectangle($bg, 0, 0, $size, $size)
-    $m = [int]($size * 0.1)
-    $g.FillEllipse($accent, $m, $m, $size - 2*$m, $size - 2*$m)
-    $font = New-Object System.Drawing.Font("Arial", [float]($size * 0.42), [System.Drawing.FontStyle]::Bold)
-    $sf   = New-Object System.Drawing.StringFormat
-    $sf.Alignment = [System.Drawing.StringAlignment]::Center
-    $sf.LineAlignment = [System.Drawing.StringAlignment]::Center
-    $g.DrawString("D", $font, $white, (New-Object System.Drawing.RectangleF(0,0,$size,$size)), $sf)
-    $bmp.Save($path, [System.Drawing.Imaging.ImageFormat]::Png)
-    $g.Dispose(); $bmp.Dispose()
-}
-
-New-DesignSnapIcon 16  "icons\icon16.png"
-New-DesignSnapIcon 48  "icons\icon48.png"
-New-DesignSnapIcon 128 "icons\icon128.png"
-```
-
-> Or replace the files in `icons/` with your own 16×16, 48×48, and 128×128 PNG icons.
-
-### 3. Load in Chrome
+### 2. Load in Chrome
 
 1. Open **`chrome://extensions/`**
 2. Enable **Developer mode** (top-right toggle)
