@@ -1,0 +1,507 @@
+/* popup.css — Design Snap */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg:         #ffffff;
+  --surface:    #f5f5f5;
+  --surface2:   #ebebeb;
+  --border:     #e2e2e2;
+  --text:       #111111;
+  --muted:      #999999;
+  --accent:     #16a34a;
+  --accent-dim: rgba(22, 163, 74, 0.08);
+  --radius:     6px;
+  --font-mono:  'Menlo', 'Consolas', 'Monaco', monospace;
+}
+
+body {
+  width: 380px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  font-size: 13px;
+  line-height: 1.4;
+  overflow: hidden;
+}
+
+/* ─── En-tête ─────────────────────────────────────────── */
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--text);
+  letter-spacing: -0.2px;
+  user-select: none;
+}
+
+.logo span { color: var(--accent); }
+
+.logo-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-lang {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 3px 7px;
+  border-radius: 4px;
+  font-size: 10.5px;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.05em;
+  transition: all 0.12s;
+}
+
+.btn-lang:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.btn-extract {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  padding: 5px 13px;
+  border-radius: var(--radius);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.12s, transform 0.1s;
+  user-select: none;
+}
+
+.btn-extract:hover:not(:disabled) { opacity: 0.82; }
+.btn-extract:active:not(:disabled) { transform: scale(0.96); }
+.btn-extract:disabled { opacity: 0.45; cursor: not-allowed; }
+
+/* ─── Onglets ──────────────────────────────────────────── */
+
+.tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+  padding: 0 6px;
+  gap: 2px;
+}
+
+.tab {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--muted);
+  padding: 8px 7px;
+  font-size: 11.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.15s;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.tab:hover    { color: var(--text); }
+.tab.active   { color: var(--accent); border-bottom-color: var(--accent); }
+
+/* ─── Zone de contenu ─────────────────────────────────── */
+
+.content {
+  height: 320px;
+  overflow-y: auto;
+  padding: 12px 14px;
+  scroll-behavior: smooth;
+}
+
+.content::-webkit-scrollbar         { width: 3px; }
+.content::-webkit-scrollbar-track   { background: transparent; }
+.content::-webkit-scrollbar-thumb   { background: #d0d0d0; border-radius: 2px; }
+
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* ─── État vide ───────────────────────────────────────── */
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 250px;
+  gap: 10px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.empty-icon { font-size: 28px; opacity: 0.35; }
+.empty-state p  { font-size: 12px; line-height: 1.6; }
+.empty-state strong { color: var(--text); }
+
+/* ─── Grille couleurs ─────────────────────────────────── */
+
+.colors-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+  gap: 8px;
+}
+
+.color-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.color-swatch {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  transition: transform 0.1s, box-shadow 0.1s;
+  flex-shrink: 0;
+}
+
+.color-item:hover .color-swatch {
+  transform: scale(1.08);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.color-value {
+  font-size: 9.5px;
+  font-family: var(--font-mono);
+  color: var(--muted);
+  text-align: center;
+  max-width: 52px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.color-count {
+  font-size: 9px;
+  color: var(--muted);
+}
+
+/* ─── Sections typographie ────────────────────────────── */
+
+.section {
+  margin-bottom: 14px;
+}
+
+.section-title {
+  font-size: 9.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.9px;
+  color: var(--muted);
+  margin-bottom: 7px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  user-select: none;
+}
+
+.section-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.token-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 8px;
+  background: var(--surface);
+  border-radius: var(--radius);
+  margin-bottom: 3px;
+  gap: 8px;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+
+.token-row:hover { background: var(--surface2); }
+
+.token-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--accent);
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.token-count {
+  font-size: 10px;
+  color: var(--muted);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ─── Radius ──────────────────────────────────────────── */
+
+.radius-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(76px, 1fr));
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.radius-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.radius-preview {
+  width: 50px;
+  height: 50px;
+  background: var(--surface2);
+  border: 1.5px solid var(--border);
+  transition: border-color 0.12s;
+}
+
+.radius-item:hover .radius-preview { border-color: var(--accent); }
+
+.radius-label {
+  font-size: 9.5px;
+  font-family: var(--font-mono);
+  color: var(--muted);
+  text-align: center;
+  max-width: 76px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ─── Shadows ─────────────────────────────────────────── */
+
+.shadow-item {
+  padding: 8px;
+  background: var(--surface);
+  border-radius: var(--radius);
+  margin-bottom: 6px;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+
+.shadow-item:hover { background: var(--surface2); }
+
+.shadow-preview {
+  height: 28px;
+  background: var(--surface2);
+  border-radius: 4px;
+  margin-bottom: 7px;
+}
+
+.shadow-value {
+  font-size: 9.5px;
+  font-family: var(--font-mono);
+  color: var(--muted);
+  word-break: break-all;
+  line-height: 1.5;
+}
+
+/* ─── Variables CSS ───────────────────────────────────── */
+
+.var-count-label {
+  font-size: 9.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.9px;
+  color: var(--muted);
+  margin-bottom: 7px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.var-count-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.var-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  align-items: center;
+  padding: 5px 8px;
+  background: var(--surface);
+  border-radius: var(--radius);
+  margin-bottom: 3px;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+
+.var-row:hover { background: var(--surface2); }
+
+.var-name {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.var-value {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--accent);
+  text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.color-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1px solid rgba(0,0,0,0.12);
+  flex-shrink: 0;
+}
+
+/* ─── Pied de page ────────────────────────────────────── */
+
+.footer {
+  display: flex;
+  gap: 5px;
+  padding: 9px 14px;
+  border-top: 1px solid var(--border);
+}
+
+.btn-copy {
+  flex: 1;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 6px 0;
+  border-radius: var(--radius);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.12s;
+  user-select: none;
+}
+
+.btn-copy:hover {
+  background: var(--surface2);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.btn-copy.copied {
+  background: var(--accent-dim);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.btn-copy:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* ─── Toggle "Voir tout" couleurs ────────────────────── */
+
+#colors-toggle-wrap {
+  display: none;
+  text-align: center;
+  padding-top: 8px;
+}
+
+.btn-toggle {
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 3px 8px;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: opacity 0.12s;
+}
+
+.btn-toggle:hover { opacity: 0.65; }
+
+/* ─── Outils (média + inspecteur) ────────────────────── */
+
+.toolbar {
+  display: flex;
+  gap: 6px;
+  padding: 0 14px 9px;
+}
+
+.btn-tool {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: var(--surface);
+  border: 1px dashed var(--border);
+  color: var(--muted);
+  padding: 7px 0;
+  border-radius: var(--radius);
+  font-size: 11.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.12s;
+}
+
+.btn-tool:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-dim);
+  border-style: solid;
+}
+
+.btn-tool:active { transform: scale(0.98); }
+
+/* ─── Barre de statut ─────────────────────────────────── */
+
+.statusbar {
+  font-size: 10.5px;
+  color: var(--muted);
+  padding: 5px 14px;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.statusbar.error { color: #dc2626; }
+.statusbar.ok    { color: var(--accent); }
