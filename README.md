@@ -143,15 +143,6 @@ design-snap/
 
 ---
 
-## Roadmap
-
-- [ ] Spacing tokens (margin, padding, gap)
-- [ ] W3C Design Tokens format export
-- [ ] Save & compare tokens between two sites
-- [ ] Element hover history (last 5 inspected)
-
----
-
 ## Contributing
 
 Pull requests are welcome. For major changes, open an issue first to discuss what you'd like to change.
