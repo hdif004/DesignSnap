@@ -63,8 +63,8 @@ Click-to-download any image or video without right-clicking or digging through t
 ### 1. Clone the repo
 
 ```bash
-git clone https://github.com/your-username/design-snap.git
-cd design-snap
+git clone https://github.com/hdif004/DesignSnap.git
+cd DesignSnap
 ```
 
 ### 2. Load in Chrome
