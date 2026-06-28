@@ -1,0 +1,86 @@
+{
+  "extName": {
+    "message": "Design Snap",
+    "description": "Nom de l'extension"
+  },
+  "extDescription": {
+    "message": "Extrayez les design tokens, inspectez le CSS de n'importe quel élément et téléchargez images & vidéos — depuis un seul popup.",
+    "description": "Description de l'extension"
+  },
+  "extract":       { "message": "Extraire" },
+  "tabColors":     { "message": "Couleurs" },
+  "tabTypo":       { "message": "Typo" },
+  "tabRadii":      { "message": "Radius & Shadows" },
+  "tabVars":       { "message": "Variables CSS" },
+  "emptyPrompt":   { "message": "Cliquez sur <strong>Extraire</strong> pour analyser la page." },
+  "btnMediaDl":    { "message": "Télécharger média" },
+  "btnInspector":  { "message": "Inspecteur" },
+  "statusReady":   { "message": "Prêt — cliquez sur Extraire" },
+  "extracting":    { "message": "Extraction en cours…" },
+  "noTabAccess":   { "message": "Impossible d'accéder à cet onglet." },
+  "systemPage":    { "message": "Non disponible sur les pages système." },
+  "reloadPage":    { "message": "Rechargez la page et réessayez." },
+  "extractFailed": { "message": "Extraction échouée." },
+  "error": {
+    "message": "Erreur : $DETAILS$",
+    "placeholders": { "details": { "content": "$1", "example": "Timeout réseau" } }
+  },
+  "noTokens":  { "message": "Extrayez d'abord les tokens." },
+  "statusResult": {
+    "message": "Top $COLORS$ couleurs · $FONTS$ polices · $VARS$ variables CSS",
+    "placeholders": {
+      "colors": { "content": "$1", "example": "5" },
+      "fonts":  { "content": "$2", "example": "3" },
+      "vars":   { "content": "$3", "example": "12" }
+    }
+  },
+  "seeAll": {
+    "message": "↓ Voir tout ($COUNT$)",
+    "placeholders": { "count": { "content": "$1", "example": "24" } }
+  },
+  "collapse":      { "message": "↑ Réduire" },
+  "copied":        { "message": "✓ Copié !" },
+  "sFontFamilies": { "message": "Font Families" },
+  "sFontSizes":    { "message": "Font Sizes" },
+  "sFontWeights":  { "message": "Font Weights" },
+  "sLineHeights":  { "message": "Line Heights" },
+  "sBorderRadius": { "message": "Border Radius" },
+  "sBoxShadows":   { "message": "Box Shadows" },
+  "varsCount": {
+    "message": "$COUNT$ variables",
+    "placeholders": { "count": { "content": "$1", "example": "42" } }
+  },
+  "pickerBanner":  { "message": "⬡ Design Snap · Survolez puis cliquez sur une image ou vidéo — Échap pour quitter" },
+  "pickerFolder":  { "message": "📁 Choisir le dossier" },
+  "pickerFolderSet": {
+    "message": "📁 $NAME$ ✓",
+    "placeholders": { "name": { "content": "$1", "example": "Téléchargements" } }
+  },
+  "pickerQuit":    { "message": "× Quitter" },
+  "pickerAborted": { "message": "Sélection annulée" },
+  "pickerDone": {
+    "message": "✓ Téléchargé ! ($FILES$ cette session)",
+    "placeholders": { "files": { "content": "$1", "example": "3 fichiers" } }
+  },
+  "pickerDoneNamed": {
+    "message": "✓ $NAME$ enregistré ($FILES$)",
+    "placeholders": {
+      "name":  { "content": "$1", "example": "hero.png" },
+      "files": { "content": "$2", "example": "2 fichiers" }
+    }
+  },
+  "pickerFileSingular": { "message": "1 fichier" },
+  "pickerFilePlural": {
+    "message": "$COUNT$ fichiers",
+    "placeholders": { "count": { "content": "$1", "example": "5" } }
+  },
+  "pickerCorsErr": {
+    "message": "Erreur fetch ($ERROR$) — dossier Téléchargements utilisé",
+    "placeholders": { "error": { "content": "$1", "example": "403" } }
+  },
+  "inspTitle":       { "message": "⬡ Design Snap Inspector" },
+  "inspHint":        { "message": "Clic = épingler" },
+  "inspPlaceholder": { "message": "Survolez un élément…" },
+  "inspCopyCSS":     { "message": "Copier CSS de l'élément" },
+  "inspCopied":      { "message": "✓ Copié !" }
+}

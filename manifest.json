@@ -1,8 +1,9 @@
 {
   "manifest_version": 3,
-  "name": "Design Snap",
+  "name": "__MSG_extName__",
   "version": "1.0.0",
-  "description": "Extract design tokens, inspect any element's CSS, and download images & videos — all from one popup.",
+  "description": "__MSG_extDescription__",
+  "default_locale": "en",
   "permissions": ["activeTab", "scripting", "downloads"],
   "background": { "service_worker": "background.js" },
   "action": {

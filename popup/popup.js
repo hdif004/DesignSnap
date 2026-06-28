@@ -4,101 +4,39 @@
 
 // ─── Internationalisation ─────────────────────────────────────────────────────
 
-const LANGS = {
-  fr: {
-    extract:        'Extraire',
-    tabColors:      'Couleurs',
-    tabTypo:        'Typo',
-    tabRadii:       'Radius & Shadows',
-    tabVars:        'Variables CSS',
-    emptyPrompt:    'Cliquez sur <strong>Extraire</strong> pour analyser la page.',
-    btnMediaDl:     'Télécharger média',
-    btnInspector:   'Inspecteur',
-    statusReady:    'Prêt — cliquez sur Extraire',
-    extracting:     'Extraction en cours…',
-    noTabAccess:    'Impossible d\'accéder à cet onglet.',
-    systemPage:     'Non disponible sur les pages système.',
-    reloadPage:     'Rechargez la page et réessayez.',
-    extractFailed:  'Extraction échouée.',
-    error:          (e) => `Erreur : ${e}`,
-    noTokens:       'Extrayez d\'abord les tokens.',
-    statusResult:   (c, f, v) => `Top ${c} couleurs · ${f} polices · ${v} variables CSS`,
-    seeAll:         (n) => `↓ Voir tout (${n})`,
-    collapse:       '↑ Réduire',
-    copied:         '✓ Copié !',
-    sFontFamilies:  'Font Families',
-    sFontSizes:     'Font Sizes',
-    sFontWeights:   'Font Weights',
-    sLineHeights:   'Line Heights',
-    sBorderRadius:  'Border Radius',
-    sBoxShadows:    'Box Shadows',
-    varsCount:      (n) => `${n} variables`,
-    // Contenu content.js (passé dans les messages)
-    pickerBanner:   '⬡ Design Snap · Survolez puis cliquez sur une image ou vidéo — Échap pour quitter',
-    pickerFolder:   '📁 Choisir le dossier',
-    pickerFolderSet:(n) => `📁 ${n} ✓`,
-    pickerQuit:     '× Quitter',
-    pickerDone:     (n) => `✓ Téléchargé ! (${n} fichier${n > 1 ? 's' : ''} cette session)`,
-    pickerAborted:  'Sélection annulée',
-    pickerCorsErr:  (e) => `Erreur fetch (${e}) — dossier Téléchargements utilisé`,
-    inspTitle:      '⬡ Design Snap Inspector',
-    inspHint:       'Clic = épingler',
-    inspPlaceholder:'Survolez un élément…',
-    inspCopyCSS:    'Copier CSS de l\'élément',
-    inspCopied:     '✓ Copié !',
-  },
-  en: {
-    extract:        'Extract',
-    tabColors:      'Colors',
-    tabTypo:        'Type',
-    tabRadii:       'Radius & Shadows',
-    tabVars:        'CSS Variables',
-    emptyPrompt:    'Click <strong>Extract</strong> to analyze the page.',
-    btnMediaDl:     'Download media',
-    btnInspector:   'Inspector',
-    statusReady:    'Ready — click Extract',
-    extracting:     'Extracting…',
-    noTabAccess:    'Cannot access this tab.',
-    systemPage:     'Not available on system pages.',
-    reloadPage:     'Reload the page and try again.',
-    extractFailed:  'Extraction failed.',
-    error:          (e) => `Error: ${e}`,
-    noTokens:       'Extract tokens first.',
-    statusResult:   (c, f, v) => `Top ${c} colors · ${f} fonts · ${v} CSS variables`,
-    seeAll:         (n) => `↓ Show all (${n})`,
-    collapse:       '↑ Collapse',
-    copied:         '✓ Copied!',
-    sFontFamilies:  'Font Families',
-    sFontSizes:     'Font Sizes',
-    sFontWeights:   'Font Weights',
-    sLineHeights:   'Line Heights',
-    sBorderRadius:  'Border Radius',
-    sBoxShadows:    'Box Shadows',
-    varsCount:      (n) => `${n} variables`,
-    pickerBanner:   '⬡ Design Snap · Hover then click any image or video — Esc to quit',
-    pickerFolder:   '📁 Choose folder',
-    pickerFolderSet:(n) => `📁 ${n} ✓`,
-    pickerQuit:     '× Quit',
-    pickerDone:     (n) => `✓ Downloaded! (${n} file${n > 1 ? 's' : ''} this session)`,
-    pickerAborted:  'Selection cancelled',
-    pickerCorsErr:  (e) => `Fetch error (${e}) — using Downloads folder`,
-    inspTitle:      '⬡ Design Snap Inspector',
-    inspHint:       'Click = pin',
-    inspPlaceholder:'Hover any element…',
-    inspCopyCSS:    'Copy element CSS',
-    inspCopied:     '✓ Copied!',
-  },
-};
+// Langue initiale : préférence stockée, sinon langue du navigateur
+let currentLang = (() => {
+  const stored = localStorage.getItem('ds-lang');
+  if (stored === 'fr' || stored === 'en') return stored;
+  return chrome.i18n.getUILanguage().startsWith('fr') ? 'fr' : 'en';
+})();
 
-let currentLang = localStorage.getItem('ds-lang') || 'fr';
+let _msgs = {};
 
-/** Retourne la traduction d'une clé, avec arguments optionnels pour les fonctions */
-function t(key, ...args) {
-  const val = LANGS[currentLang]?.[key] ?? LANGS.fr[key] ?? key;
-  return typeof val === 'function' ? val(...args) : val;
+/** Charge le fichier messages.json du locale choisi depuis _locales/ */
+async function loadMessages(lang) {
+  const url = chrome.runtime.getURL(`_locales/${lang}/messages.json`);
+  const resp = await fetch(url);
+  _msgs = await resp.json();
 }
 
-/** Met à jour tous les éléments data-i18n / data-i18n-html et le toggle */
+/** Retourne la chaîne localisée avec substitution des placeholders */
+function t(key, ...args) {
+  const entry = _msgs[key];
+  if (!entry) return key;
+  let msg = entry.message;
+  if (entry.placeholders && args.length) {
+    for (const [name, def] of Object.entries(entry.placeholders)) {
+      const m = def.content.match(/^\$(\d+)$/);
+      if (!m) continue;
+      const val = String(args[parseInt(m[1]) - 1] ?? '');
+      msg = msg.replace(new RegExp('\\$' + name + '\\$', 'gi'), val);
+    }
+  }
+  return msg;
+}
+
+/** Met à jour tous les éléments data-i18n / data-i18n-html et le titre */
 function applyLang() {
   document.querySelectorAll('[data-i18n]').forEach(el => {
     el.textContent = t(el.dataset.i18n);
@@ -106,9 +44,9 @@ function applyLang() {
   document.querySelectorAll('[data-i18n-html]').forEach(el => {
     el.innerHTML = t(el.dataset.i18nHtml);
   });
-  document.getElementById('btn-lang').textContent = currentLang === 'fr' ? 'EN' : 'FR';
+  document.title = t('extName');
   document.documentElement.lang = currentLang;
-  // Re-rendre le contenu dynamique si des tokens sont déjà extraits
+  document.getElementById('btn-lang').textContent = currentLang === 'fr' ? 'EN' : 'FR';
   if (extractedTokens) {
     renderAll(extractedTokens);
     const c = Math.min(extractedTokens.colors.length, 5);
@@ -150,7 +88,7 @@ document.getElementById('btn-inspector').addEventListener('click', activateInspe
 document.getElementById('btn-lang').addEventListener('click', () => {
   currentLang = currentLang === 'fr' ? 'en' : 'fr';
   localStorage.setItem('ds-lang', currentLang);
-  applyLang();
+  loadMessages(currentLang).then(applyLang);
 });
 
 btnsCopy.forEach(btn => {
@@ -158,7 +96,7 @@ btnsCopy.forEach(btn => {
   btn.disabled = true; // Désactivé jusqu'à la première extraction
 });
 
-applyLang();
+loadMessages(currentLang).then(applyLang);
 
 // ─── Extraction ───────────────────────────────────────────────────────────────
 

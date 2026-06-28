@@ -19,14 +19,14 @@ if (typeof window.__designSnapInjected === 'undefined') {
       return true;
     }
     if (message.action === 'startImagePicker') {
-      _contentLang = message.lang || 'fr';
-      startImagePicker();
+      const lang = message.lang || 'en';
+      _loadContentMessages(lang).then(startImagePicker);
       sendResponse({ success: true });
       return false;
     }
     if (message.action === 'startInspector') {
-      _contentLang = message.lang || 'fr';
-      startInspector();
+      const lang = message.lang || 'en';
+      _loadContentMessages(lang).then(startInspector);
       sendResponse({ success: true });
       return false;
     }
@@ -34,49 +34,41 @@ if (typeof window.__designSnapInjected === 'undefined') {
   });
 }
 
-// ─── i18n minimal pour le content script ─────────────────────────────────────
+// ─── Internationalisation ────────────────────────────────────────────────────
 
-let _contentLang = 'fr';
+let _contentMsgs = {};
 
-const _CONTENT_STRINGS = {
-  fr: {
-    pickerBanner:    '⬡ Design Snap · Survolez puis cliquez sur une image ou vidéo — Échap pour quitter',
-    pickerFolder:    '📁 Choisir le dossier',
-    pickerFolderSet: (n) => `📁 ${n} ✓`,
-    pickerQuit:      '× Quitter',
-    pickerAborted:   'Sélection annulée',
-    pickerDone:      (name, count) => name
-      ? `✓ ${name} enregistré (${count} fichier${count > 1 ? 's' : ''})`
-      : `✓ Téléchargé (${count} fichier${count > 1 ? 's' : ''})`,
-    pickerCorsErr:   (e) => `Erreur fetch (${e}) — téléchargement dans Téléchargements`,
-    inspTitle:       '⬡ Design Snap Inspector',
-    inspHint:        'Clic = épingler',
-    inspPlaceholder: 'Survolez un élément…',
-    inspCopyCSS:     'Copier CSS de l\'élément',
-    inspCopied:      '✓ Copié !',
-  },
-  en: {
-    pickerBanner:    '⬡ Design Snap · Hover then click any image or video — Esc to quit',
-    pickerFolder:    '📁 Choose folder',
-    pickerFolderSet: (n) => `📁 ${n} ✓`,
-    pickerQuit:      '× Quit',
-    pickerAborted:   'Selection cancelled',
-    pickerDone:      (name, count) => name
-      ? `✓ ${name} saved (${count} file${count > 1 ? 's' : ''})`
-      : `✓ Downloaded (${count} file${count > 1 ? 's' : ''})`,
-    pickerCorsErr:   (e) => `Fetch error (${e}) — using Downloads folder`,
-    inspTitle:       '⬡ Design Snap Inspector',
-    inspHint:        'Click = pin',
-    inspPlaceholder: 'Hover any element…',
-    inspCopyCSS:     'Copy element CSS',
-    inspCopied:      '✓ Copied!',
-  },
-};
+/** Charge le fichier messages.json du locale depuis _locales/ */
+async function _loadContentMessages(lang) {
+  const url = chrome.runtime.getURL(`_locales/${lang}/messages.json`);
+  const resp = await fetch(url);
+  _contentMsgs = await resp.json();
+}
 
+/** Retourne la chaîne localisée avec substitution des placeholders */
 function _ct(key, ...args) {
-  const strings = _CONTENT_STRINGS[_contentLang] ?? _CONTENT_STRINGS.fr;
-  const val = strings[key] ?? _CONTENT_STRINGS.fr[key] ?? key;
-  return typeof val === 'function' ? val(...args) : val;
+  const entry = _contentMsgs[key];
+  if (!entry) return key;
+  let msg = entry.message;
+  if (entry.placeholders && args.length) {
+    for (const [name, def] of Object.entries(entry.placeholders)) {
+      const m = def.content.match(/^\$(\d+)$/);
+      if (!m) continue;
+      const val = String(args[parseInt(m[1]) - 1] ?? '');
+      msg = msg.replace(new RegExp('\\$' + name + '\\$', 'gi'), val);
+    }
+  }
+  return msg;
+}
+
+/** Gère le pluriel et le message de fin de téléchargement */
+function _pickerDoneMsg(name, count) {
+  const files = count === 1
+    ? _ct('pickerFileSingular')
+    : _ct('pickerFilePlural', count);
+  return name
+    ? _ct('pickerDoneNamed', name, files)
+    : _ct('pickerDone', files);
 }
 
 // ─── Orchestrateur principal ──────────────────────────────────────────────────
@@ -410,7 +402,7 @@ async function _doDownload(url, filename) {
 function _onDone(filenameOrResp) {
   _dlCount++;
   const name = typeof filenameOrResp === 'string' ? filenameOrResp : null;
-  _flashBanner(_ct('pickerDone', name, _dlCount), '#fff', 2200);
+  _flashBanner(_pickerDoneMsg(name, _dlCount), '#fff', 2200);
 }
 
 /** Génère un nom unique si le fichier existe déjà dans le dossier cible */

@@ -1,0 +1,86 @@
+{
+  "extName": {
+    "message": "Design Snap",
+    "description": "Extension name"
+  },
+  "extDescription": {
+    "message": "Extract design tokens, inspect any element's CSS, and download images & videos — all from one popup.",
+    "description": "Extension description"
+  },
+  "extract":       { "message": "Extract" },
+  "tabColors":     { "message": "Colors" },
+  "tabTypo":       { "message": "Type" },
+  "tabRadii":      { "message": "Radius & Shadows" },
+  "tabVars":       { "message": "CSS Variables" },
+  "emptyPrompt":   { "message": "Click <strong>Extract</strong> to analyze the page." },
+  "btnMediaDl":    { "message": "Download media" },
+  "btnInspector":  { "message": "Inspector" },
+  "statusReady":   { "message": "Ready — click Extract" },
+  "extracting":    { "message": "Extracting…" },
+  "noTabAccess":   { "message": "Cannot access this tab." },
+  "systemPage":    { "message": "Not available on system pages." },
+  "reloadPage":    { "message": "Reload the page and try again." },
+  "extractFailed": { "message": "Extraction failed." },
+  "error": {
+    "message": "Error: $DETAILS$",
+    "placeholders": { "details": { "content": "$1", "example": "Network timeout" } }
+  },
+  "noTokens":  { "message": "Extract tokens first." },
+  "statusResult": {
+    "message": "Top $COLORS$ colors · $FONTS$ fonts · $VARS$ CSS variables",
+    "placeholders": {
+      "colors": { "content": "$1", "example": "5" },
+      "fonts":  { "content": "$2", "example": "3" },
+      "vars":   { "content": "$3", "example": "12" }
+    }
+  },
+  "seeAll": {
+    "message": "↓ Show all ($COUNT$)",
+    "placeholders": { "count": { "content": "$1", "example": "24" } }
+  },
+  "collapse":      { "message": "↑ Collapse" },
+  "copied":        { "message": "✓ Copied!" },
+  "sFontFamilies": { "message": "Font Families" },
+  "sFontSizes":    { "message": "Font Sizes" },
+  "sFontWeights":  { "message": "Font Weights" },
+  "sLineHeights":  { "message": "Line Heights" },
+  "sBorderRadius": { "message": "Border Radius" },
+  "sBoxShadows":   { "message": "Box Shadows" },
+  "varsCount": {
+    "message": "$COUNT$ variables",
+    "placeholders": { "count": { "content": "$1", "example": "42" } }
+  },
+  "pickerBanner":  { "message": "⬡ Design Snap · Hover then click any image or video — Esc to quit" },
+  "pickerFolder":  { "message": "📁 Choose folder" },
+  "pickerFolderSet": {
+    "message": "📁 $NAME$ ✓",
+    "placeholders": { "name": { "content": "$1", "example": "Downloads" } }
+  },
+  "pickerQuit":    { "message": "× Quit" },
+  "pickerAborted": { "message": "Selection cancelled" },
+  "pickerDone": {
+    "message": "✓ Downloaded! ($FILES$ this session)",
+    "placeholders": { "files": { "content": "$1", "example": "3 files" } }
+  },
+  "pickerDoneNamed": {
+    "message": "✓ $NAME$ saved ($FILES$)",
+    "placeholders": {
+      "name":  { "content": "$1", "example": "hero.png" },
+      "files": { "content": "$2", "example": "2 files" }
+    }
+  },
+  "pickerFileSingular": { "message": "1 file" },
+  "pickerFilePlural": {
+    "message": "$COUNT$ files",
+    "placeholders": { "count": { "content": "$1", "example": "5" } }
+  },
+  "pickerCorsErr": {
+    "message": "Fetch error ($ERROR$) — using Downloads folder",
+    "placeholders": { "error": { "content": "$1", "example": "403" } }
+  },
+  "inspTitle":       { "message": "⬡ Design Snap Inspector" },
+  "inspHint":        { "message": "Click = pin" },
+  "inspPlaceholder": { "message": "Hover any element…" },
+  "inspCopyCSS":     { "message": "Copy element CSS" },
+  "inspCopied":      { "message": "✓ Copied!" }
+}

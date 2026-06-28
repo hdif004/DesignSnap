@@ -17,6 +17,8 @@
   --accent-dim: rgba(22, 163, 74, 0.08);
   --radius:     6px;
   --font-mono:  'Menlo', 'Consolas', 'Monaco', monospace;
+  --kofi:       #f97316;
+  --kofi-dim:   rgba(249, 115, 22, 0.08);
 }
 
 body {
@@ -505,3 +507,32 @@ body {
 
 .statusbar.error { color: #dc2626; }
 .statusbar.ok    { color: var(--accent); }
+
+/* ─── Ko-fi ───────────────────────────────────────────── */
+
+.kofi-bar {
+  display: flex;
+  justify-content: center;
+  padding: 5px 14px;
+  border-top: 1px solid var(--border);
+}
+
+.btn-kofi {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--kofi);
+  text-decoration: none;
+  padding: 3px 10px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  transition: all 0.12s;
+  user-select: none;
+}
+
+.btn-kofi:hover {
+  border-color: var(--kofi);
+  background: var(--kofi-dim);
+}
