@@ -2,9 +2,6 @@
 
 **Extract design tokens, inspect elements, and download media from any website.**  
 A Chrome extension built for designers and front-end developers who want to understand and reuse any site's design system — without digging through DevTools.
-
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/S1D1227SFO)
-
 ---
 
 ## Screenshots
