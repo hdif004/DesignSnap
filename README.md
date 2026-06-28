@@ -1,6 +1,6 @@
 # Design Snap
 
-**Extract design tokens, inspect elements, and download media from any website.**  
+Extract design tokens, inspect elements, and download media from any website.
 A Chrome extension built for designers and front-end developers who want to understand and reuse any site's design system — without digging through DevTools.
 ---
 
